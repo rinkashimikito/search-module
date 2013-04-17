@@ -2,33 +2,45 @@ function init() {
     var search = new episodeSearch();
     // initiate search
     search.init('search_episodes');
-
-    // #TODO hide JS-disabled error message
 }		
 
+// episode search object
 function episodeSearch() {
 	var curObj = this,
         searchForm,
         searchInputValue;
 	
+	// initiate search events
 	this.init = function (searchFormId) {
         searchForm = $('#' + searchFormId),
         searchFormInput = searchForm.find('#searchInput');
         
+        // disable submit
         searchForm.on('submit', function (e) {
             e.preventDefault();
         });
         
+        // set input placeholder value
         searchFormInput.on('focus blur', function() {
             curObj.setInputValue(searchFormInput);
         });
         
+        // search after keyup
         searchFormInput.on('keyup', function() {
-            searchInputValue = $(this).val();
+        	clearTimeout($(this).data('timer')); // remove timeout
+        	
+            var delay = 2000; // 2 seconds delay after last input            
+        	var searchInputValue = $(this).val(); // get input value
             
-            if (searchInputValue != 'Search..' && searchInputValue != '') {
-                curObj.submitSearchQuery(searchInputValue);
-            }
+            $(this).data('timer', setTimeout(function(){
+            	$(this).removeData('timer');
+            	searchFormInput.addClass('in-progress');
+                
+                // Submit query after 2 seconds of last user input
+                if (searchInputValue != 'Search..' && searchInputValue != '') {
+                    curObj.submitSearchQuery(searchInputValue);
+                }
+            }, delay));
         });
 	};
 	
@@ -49,7 +61,10 @@ function episodeSearch() {
             type: 'GET',
             dataType: "json",
             success: function( data ) {
-                if($('.results')) {
+            	// clear previous results and in-progress class
+            	searchFormInput.removeClass('in-progress');
+                
+            	if($('.results')) {
                     $('.results').remove();
                 };
                 if($('.no-results')) {
@@ -71,8 +86,17 @@ function episodeSearch() {
                 };
             },
             error: function() {
-                //response( [] );
-                console.log('error');
+            	// clear previous results and in-progress class
+            	searchFormInput.removeClass('in-progress');
+                
+            	if($('.results')) {
+                    $('.results').remove();
+                };
+                if($('.no-results')) {
+                    $('.no-results').remove();
+                };
+                // add error message
+            	$('#search_wrapper').append($('<div class="no-results error">Please try again later.</div>'));
             }
         });
     }
@@ -82,17 +106,14 @@ function episodeSearch() {
         
         if (data.blocklist.length > 0 ) {
             $.each(data.blocklist, function(index,element){
-                if (results.indexOf(element.my_series_url) < 0) {
+            	// group by series URL, only currently available episodes
+                if (results.indexOf(element.my_series_url) < 0 && element.availability == 'CURRENT') {
                    results[index] = element.my_series_url;
                 }   
             });                
         }
         return results;
     }
-}
-
-function submitSearchQuery () {
-
 }
 
 // initiate when window is loaded

@@ -1,0 +1,33 @@
+.in-progress {
+	background: url('../img/spinner.gif') no-repeat right;
+}
+
+#search_wrapper {
+	display: block;
+	position: relative;
+}
+
+.results {
+	background-color: #E2E2E2;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.results li {
+	
+}
+
+.results a {
+	color: #333333;
+    display: block;
+    line-height: 2em;
+    text-decoration: none;
+    padding: 0 8px;
+}
+
+.results a:hover {
+	color: #fff;
+	background-color: #2e2e2e;
+}
