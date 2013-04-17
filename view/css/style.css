@@ -62,8 +62,10 @@
 
 .results {
 	background-color: #E2E2E2;
+    display: block;
     list-style-type: none;
     margin: 0;
+    overflow: hidden;
     padding: 0;
     position: absolute;
 }

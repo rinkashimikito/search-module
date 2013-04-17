@@ -42,6 +42,15 @@ function episodeSearch() {
                 }
             }, delay));
         });
+
+        $('#search_wrapper').on('mouseleave', '.results', function(){
+            $('.results').hide();
+        });
+        if($('.results')) {
+            searchFormInput.on('click', function(){
+                $('.results').show();
+            });
+        }
 	};
 	
 	this.setInputValue = function (input) {

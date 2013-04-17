@@ -13,9 +13,9 @@
     <div id="container">             
       <h1>Search</h1>   
 		<div id="search_wrapper">
-		<form action="" id="search_episodes">
+		<form action="" id="search_episodes" method="get">
 			<fieldset>
-				<input type="text" id="searchInput" name="search-input" value="Search.." />
+				<input type="text" id="searchInput" name="search-input" value="Search.." autocomplete="off" />
 				<input type="submit" id="searchButton" name="submit" value="Search" class="btn" />
 			</fieldset>
 		</form>
