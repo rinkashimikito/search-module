@@ -21,7 +21,7 @@
 	    //start SearchController
         $search = new SearchController($config);
         if (!empty($_GET['search'])) {
-			$search->resultsAction();
+            $search->resultsAction();
         } else {
 			$search->indexAction();
 		}

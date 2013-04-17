@@ -13,18 +13,22 @@ function episodeSearch() {
 	
 	this.init = function (searchFormId) {
         searchForm = $('#' + searchFormId),
-        searchFormInput = searchForm.find('#searchInput'),
-        searchInputValue = searchFormInput.val();
+        searchFormInput = searchForm.find('#searchInput');
         
         searchForm.on('submit', function (e) {
             e.preventDefault();
-            if (searchInputValue != 'Search..') {
-                curObj.submitSearchQuery(searchInputValue);
-            }
         });
         
         searchFormInput.on('focus blur', function() {
             curObj.setInputValue(searchFormInput);
+        });
+        
+        searchFormInput.on('keyup', function() {
+            searchInputValue = $(this).val();
+            
+            if (searchInputValue != 'Search..' && searchInputValue != '') {
+                curObj.submitSearchQuery(searchInputValue);
+            }
         });
 	};
 	
@@ -33,13 +37,13 @@ function episodeSearch() {
         
         if($this.val() == 'Search..') {
             $this.val('');
-        } else {
+        } else if ($this.val() == ''){
             $this.val('Search..');
         };
 	}
 	
 	this.submitSearchQuery = function (searchQuery) {
-        var url = "http://localhost/search2/?search=true&q=" + searchQuery;
+        var url = "http://" + window.location.host + window.location.pathname + "?search=true&q=" + searchQuery;
 		$.ajax({
             url: url,
             type: 'GET',
@@ -48,14 +52,22 @@ function episodeSearch() {
                 if($('.results')) {
                     $('.results').remove();
                 };
-                $('#search_wrapper').append('<ul class="results"></ul>');
+                if($('.no-results')) {
+                    $('.no-results').remove();
+                };
                 
-                if(data.blocklist.length > 0 ) {
-                    $.each(data.blocklist, function(index,element){
-                        $('.results').append($('<li>'+'<a href="' + element.my_series_url + '">' + element.complete_title + '</a></li>'));
+                var resultsByBrand = curObj.groupByBrand(data);
+                
+                if(resultsByBrand.length > 0 ) {
+                    $('#search_wrapper').append('<ul class="results"></ul>');
+                
+                    $.each(resultsByBrand, function(index, element){
+                        if (element !== undefined) {
+                            $('.results').append($('<li>'+'<a href="' + data.blocklist[index].my_series_url + '">' + data.blocklist[index].brand_title + '</a></li>'));
+                        }
                     });
                 } else {
-                    $('.results').append($('<li>Sorry, no results found.</li>'));
+                    $('#search_wrapper').append($('<div class="no-results">Sorry, no results found.</div>'));
                 };
             },
             error: function() {
@@ -63,6 +75,19 @@ function episodeSearch() {
                 console.log('error');
             }
         });
+    }
+    
+    this.groupByBrand = function (data) {
+        var results = new Array();
+        
+        if (data.blocklist.length > 0 ) {
+            $.each(data.blocklist, function(index,element){
+                if (results.indexOf(element.my_series_url) < 0) {
+                   results[index] = element.my_series_url;
+                }   
+            });                
+        }
+        return results;
     }
 }
 

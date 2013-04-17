@@ -24,14 +24,14 @@ class SearchExtendedModel {
 	public function getResults($queryParams = array()) {
 		if ($this->validateQuery($queryParams)) {
 			$this->_searchParams = array_merge($this->_searchParams, $queryParams);
-			$queryStringParams = array_filter($this->_searchParams, 'strlen');
-			//$queryString = $this->_searchUrl . '/';
-			$queryString = 'http://localhost/search2/test/fixtures/feedsample.json';
+            $queryStringParams = array_filter($this->_searchParams, 'strlen');
+			$queryString = $this->_searchUrl . '/';
+			//$queryString = 'http://localhost/search2/test/fixtures/feedsample.json';
             
 			foreach ($queryStringParams as $k => $v) {
-			 //$queryString .= $k . '/' . $v . '/';
+			 $queryString .= $k . '/' . $v . '/';
 			}
-			
+
 			$jsonResult = $this->_getJson($queryString);
 			return $jsonResult; 
 		}
