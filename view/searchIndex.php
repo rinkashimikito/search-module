@@ -16,7 +16,7 @@
 		<form action="" id="search_episodes">
 			<fieldset>
 				<input type="text" id="searchInput" name="search-input" value="Search.." />
-				<input type="submit" id="searchButton" name="submit" value="Search" />
+				<input type="submit" id="searchButton" name="submit" value="Search" class="btn" />
 			</fieldset>
 		</form>
 		</div>		  
