@@ -15,7 +15,7 @@ function episodeSearch() {
         searchForm = $('#' + searchFormId),
         searchFormInput = searchForm.find('#searchInput');
         
-        // disable submit
+        // disable submit's default action to prevent reloading
         searchForm.on('submit', function (e) {
             e.preventDefault();
             
@@ -65,7 +65,7 @@ function episodeSearch() {
 	}
 	
 	this.searchValue = function (searchInputValue) {
-		if (searchInputValue != 'Search..' && searchInputValue != '') {
+        if (searchInputValue != 'Search..' && searchInputValue != '') {
             searchFormInput.addClass('in-progress');
             curObj.submitSearchQuery(searchInputValue);
         }
