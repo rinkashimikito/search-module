@@ -7,7 +7,7 @@
     <link href="view/css/style.css" rel="stylesheet">
 	<script src="view/js/jquery-1.9.1.js"></script>
 	<script src="view/js/jquery-ui-1.10.2.custom.js"></script> 
-	<script src="view/js/app.js"></script> 
+	<script src="view/js/EpisodeSeach.js"></script> 
   </head>     
   <body>         
     <div id="container">             
