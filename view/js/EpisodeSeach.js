@@ -18,6 +18,10 @@ function episodeSearch() {
         // disable submit
         searchForm.on('submit', function (e) {
             e.preventDefault();
+            
+            var searchInputValue = $(this).find('#searchInput').val();            
+            curObj.searchValue(searchInputValue);
+            
         });
         
         // set input placeholder value
@@ -36,10 +40,7 @@ function episodeSearch() {
             	$(this).removeData('timer');
                 
                 // Submit query after 2 seconds of last user input
-                if (searchInputValue != 'Search..' && searchInputValue != '') {
-                    searchFormInput.addClass('in-progress');
-                    curObj.submitSearchQuery(searchInputValue);
-                }
+            	curObj.searchValue(searchInputValue);
             }, delay));
         });
 
@@ -61,6 +62,13 @@ function episodeSearch() {
         } else if ($this.val() == ''){
             $this.val('Search..');
         };
+	}
+	
+	this.searchValue = function (searchInputValue) {
+		if (searchInputValue != 'Search..' && searchInputValue != '') {
+            searchFormInput.addClass('in-progress');
+            curObj.submitSearchQuery(searchInputValue);
+        }
 	}
 	
 	this.submitSearchQuery = function (searchQuery) {

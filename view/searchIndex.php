@@ -13,8 +13,10 @@
     <div id="container">             
       <h1>Search</h1>   
 		<div id="search_wrapper">
-		<form action="" id="search_episodes" method="get">
+		<form action="index.php" id="search_episodes" method="post">
 			<fieldset>
+			    <input type="hidden" name="search" value="true" />
+			    <input type="hidden" name="format" value="html" />
 				<input type="text" id="searchInput" name="search-input" value="Search.." autocomplete="off" />
 				<input type="submit" id="searchButton" name="submit" value="Search" class="btn" />
 			</fieldset>
