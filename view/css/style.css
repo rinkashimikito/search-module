@@ -69,7 +69,11 @@
 }
 
 .results li {
-	
+	border-top: 1px solid #eee;
+}
+
+.results li:first-child() {
+	border-top: none;
 }
 
 .results a {

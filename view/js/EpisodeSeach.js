@@ -29,15 +29,15 @@ function episodeSearch() {
         searchFormInput.on('keyup', function() {
         	clearTimeout($(this).data('timer')); // remove timeout
         	
-            var delay = 2000; // 2 seconds delay after last input            
+            var delay = 1000; // 2 seconds delay after last input            
         	var searchInputValue = $(this).val(); // get input value
             
             $(this).data('timer', setTimeout(function(){
             	$(this).removeData('timer');
-            	searchFormInput.addClass('in-progress');
                 
                 // Submit query after 2 seconds of last user input
                 if (searchInputValue != 'Search..' && searchInputValue != '') {
+                    searchFormInput.addClass('in-progress');
                     curObj.submitSearchQuery(searchInputValue);
                 }
             }, delay));
